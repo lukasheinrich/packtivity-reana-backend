@@ -5,7 +5,6 @@ import logging
 import pipes
 import base64
 import os
-import os
 
 log = logging.getLogger(__name__)
 

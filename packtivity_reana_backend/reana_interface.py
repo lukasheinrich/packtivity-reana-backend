@@ -1,9 +1,9 @@
-APIHOST = os.environ.get('PACKTIVITY_REANA_APIHOST','job-controller.default.svc.cluster.local')
-
+import os
 import requests
 import json
 import logging
 
+JOBCONTROLLER_HOST = os.environ.get('PACKTIVITY_REANA_APIHOST','job-controller.default.svc.cluster.local')
 log = logging.getLogger(__name__)
 
 def submit(experiment, image, cmd):
