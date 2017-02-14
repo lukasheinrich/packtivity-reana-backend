@@ -66,9 +66,14 @@ class ExternalBackend(object):
             wrapped_cmd = make_oneliner(job)
         elif 'script' in job:
             wrapped_cmd = make_script(job)
-
+            
         image   = spec['environment']['image']
         tag     = spec['environment']['imagetag']
+
+        do_cvmfs  = False
+        for resource in spec.get('environment',[]):
+            if resource == 'CVMFS':
+                do_cvmfs = True
 
         log.info('state context is %s',context)
         log.info('would run job %s',job)
@@ -77,7 +82,7 @@ class ExternalBackend(object):
 
         log.info('submitting!')
 
-        job_id = reanaiface.submit('atlas', ':'.join([image,tag]), wrapped_cmd)
+        job_id = reanaiface.submit('atlas', ':'.join([image,tag]), wrapped_cmd, do_cvmfs = do_cvmfs)
         
         log.info('submitted job: %s', job_id)
         return ExternalProxy(

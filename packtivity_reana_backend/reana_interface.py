@@ -6,13 +6,16 @@ import logging
 JOBCONTROLLER_HOST = os.environ.get('PACKTIVITY_REANA_APIHOST','job-controller.default.svc.cluster.local')
 log = logging.getLogger(__name__)
 
-def submit(experiment, image, cmd):
+def submit(experiment, image, cmd, cvmfs = False, grid = False):
     job_spec = {
         'experiment': experiment,
         'docker-img': image,
         'cmd': cmd,
         'env-vars': {}
     }
+    if cvmfs:
+        job_spec['cvmfs_mounts'] = ['atlas-condb', 'atlas','sft'],
+        
 
     log.info('submitting %s',json.dumps(job_spec, indent = 4, sort_keys = True))
 
