@@ -82,7 +82,7 @@ class ExternalBackend(object):
 
         log.info('submitting!')
 
-        job_id = reanaiface.submit('atlas', ':'.join([image,tag]), wrapped_cmd, do_cvmfs = do_cvmfs)
+        job_id = reanaiface.submit('atlas', ':'.join([image,tag]), wrapped_cmd, cvmfs = do_cvmfs)
         
         log.info('submitted job: %s', job_id)
         return ExternalProxy(
