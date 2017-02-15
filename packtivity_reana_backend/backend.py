@@ -71,7 +71,7 @@ class ExternalBackend(object):
         tag     = spec['environment']['imagetag']
 
         do_cvmfs  = False
-        for resource in spec.get('environment',[]):
+        for resource in spec['environment'].get('resources',[]):
             if resource == 'CVMFS':
                 do_cvmfs = True
 
