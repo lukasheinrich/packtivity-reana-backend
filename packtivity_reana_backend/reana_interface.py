@@ -14,7 +14,7 @@ def submit(experiment, image, cmd, cvmfs = False, grid = False):
         'env-vars': {}
     }
     if cvmfs:
-        job_spec['cvmfs_mounts'] = ['atlas-condb', 'atlas','sft'],
+        job_spec['cvmfs_mounts'] = ['atlas-condb', 'atlas','sft']
         
 
     log.info('submitting %s',json.dumps(job_spec, indent = 4, sort_keys = True))
