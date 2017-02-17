@@ -23,28 +23,37 @@ def submit(experiment, image, cmd, cvmfs = False, grid = False):
 
     log.info('submitting %s',json.dumps(job_spec, indent = 4, sort_keys = True))
 
-    response = requests.post(
-        'http://{host}/{resource}'.format(
-            host=JOBCONTROLLER_HOST,
-            resource='jobs'
-        ),
-        json=job_spec,
-        headers={'content-type': 'application/json'}
-    )
+    try:
+        response = requests.post(
+            'http://{host}/{resource}'.format(
+                host=JOBCONTROLLER_HOST,
+                resource='jobs'
+            ),
+            json=job_spec,
+            headers={'content-type': 'application/json'}
+        )
+    except requests.exceptions.ConnectionError:
+        log.info('caught ConnectionError in submit.. ignore')
+        pass
 
     job_id = str(response.json()['job-id'])
     return job_id
 
 def check_status(job_id):
     time.sleep(BUFFER_TIME) #buffers to not hammer server when this is called in a tight loop
-    response = requests.get(
-        'http://{host}/{resource}/{id}'.format(
-            host=JOBCONTROLLER_HOST,
-            resource='jobs',
-            id=job_id
-        ),
-        headers = {'cache-control':'no-cache'}
-    )
 
+    try:
+        response = requests.get(
+            'http://{host}/{resource}/{id}'.format(
+                host=JOBCONTROLLER_HOST,
+                resource='jobs',
+                id=job_id
+            ),
+            headers = {'cache-control':'no-cache'}
+        )
+    except requests.exceptions.ConnectionError:
+        log.info('caught ConnectionError in check_status.. ignore')
+        pass
+    
     job_info = response.json()['job']
     return job_info
