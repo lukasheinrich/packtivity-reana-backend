@@ -6,7 +6,7 @@ import time
 JOBCONTROLLER_HOST = os.environ.get('PACKTIVITY_REANA_APIHOST','job-controller.default.svc.cluster.local')
 log = logging.getLogger(__name__)
 
-BUFFER_TIME = 0.01
+BUFFER_TIME = 0.05
 
 def submit(experiment, image, cmd, cvmfs = False, grid = False):
     time.sleep(BUFFER_TIME) #buffers to not hammer server when this is called in a tight loop
